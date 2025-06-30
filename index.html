@@ -118,20 +118,18 @@
 		const tooltip = document.getElementById('tooltip');
 		const tooltipLink = document.getElementById('tooltipLink');
 		let touchedOnce = false;
-		tooltipLink.addEventListener('touchstart', function(e) {
-			if (!touchedOnce) {
-				e.preventDefault();
-				tooltip.classList.add('visible');
-				touchedOnce = true;
-				setTimeout(() => {
-					tooltip.classList.remove('visible');
-					touchedOnce = false;
-				}, 4000);
-			} else {
-				window.location.href = tooltipLink.href;
+		tooltipLink.addEventListener('click', function(e) {
+			if ('ontouchstart' in window) {
+				if (!touchedOnce) {
+					e.preventDefault(); // Блокуємо перехід лише при першому торканні
+					tooltip.classList.add('visible');
+					touchedOnce = true;
+					setTimeout(() => {
+						tooltip.classList.remove('visible');
+						touchedOnce = false;
+					}, 10000);
+				}
 			}
-		}, {
-			passive: false
 		});
 	</script>
 
