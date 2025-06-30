@@ -126,7 +126,7 @@
 					tooltip.classList.add('visible');
 					touchedOnce = true;
 					clearTimeout(hideTimeout);
-					hideTimeout = setTimeout(() => {
+					hideTimeout = setTimeout(function() {
 						tooltip.classList.remove('visible');
 						touchedOnce = false;
 					}, 5000);
