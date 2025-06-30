@@ -117,25 +117,31 @@
 	<script>
 		const tooltip = document.getElementById('tooltip');
 		const tooltipLink = document.getElementById('tooltipLink');
-		let touchedOnce = false;
-		let hideTimeout;
-		tooltipLink.addEventListener('click', function(e) {
-			if ('ontouchstart' in window) {
-				if (!touchedOnce) {
-					e.preventDefault();
-					tooltip.classList.add('visible');
-					touchedOnce = true;
-					clearTimeout(hideTimeout);
-					hideTimeout = setTimeout(function() {
-						tooltip.classList.remove('visible');
-						touchedOnce = false;
-					}, 5000);
-				} else {
-					clearTimeout(hideTimeout);
-					tooltip.classList.remove('visible');
-					touchedOnce = false;
-				}
+		let tooltipVisible = false;
+		let tooltipTimer;
+		const showTooltip = () => {
+			clearTimeout(tooltipTimer);
+			tooltip.classList.add('visible');
+			tooltipVisible = true;
+			tooltipTimer = setTimeout(hideTooltip, 10000);
+		};
+		const hideTooltip = () => {
+			clearTimeout(tooltipTimer);
+			tooltip.classList.remove('visible');
+			tooltipVisible = false;
+		};
+		tooltipLink.addEventListener('touchstart', (e) => {
+			if (!tooltipVisible) {
+				e.preventDefault();
+				showTooltip();
+			} else {
+				hideTooltip();
 			}
+		}, {
+			passive: false
+		});
+		document.addEventListener('touchstart', (e) => {
+			if (!tooltipLink.contains(e.target)) hideTooltip();
 		});
 	</script>
 
