@@ -71,7 +71,7 @@
 		white-space: nowrap;
 		opacity: 0;
 		visibility: hidden;
-		transition: opacity 0.3s ease;
+		transition: opacity 1s ease;
 	}
 
 	.tooltip-text.visible {
@@ -126,11 +126,9 @@ if (isTouchDevice) {
 		} else {
 			clearTimeout(timeoutId);
 			tooltip.classList.remove('visible');
-			// Дозволяємо переходити
 		}
 	});
 
-	// Закриття при натисканні поза кнопкою
 	document.addEventListener('click', function (e) {
 		if (touchedOnce && !tooltipLink.contains(e.target)) {
 			touchedOnce = false;
@@ -139,7 +137,6 @@ if (isTouchDevice) {
 		}
 	});
 } else {
-	// Hover для десктопа
 	tooltipLink.addEventListener('mouseenter', function () {
 		tooltip.classList.add('visible');
 	});
