@@ -113,9 +113,9 @@
 		let touchedOnce = false;
 		let timeoutId = null;
 
-		tooltipLink.addEventListener('touchend', function (event) {
+		tooltipLink.addEventListener('touchstart', function (event) {
 			if (!touchedOnce) {
-				event.preventDefault();
+				event.preventDefault(); // блокуємо перехід
 				touchedOnce = true;
 				tooltip.classList.add('visible');
 
@@ -125,11 +125,20 @@
 				 }, 10000);
 			} else {
 				clearTimeout(timeoutId);
+				tooltip.classList.remove('visible');
 				window.location.href = tooltipLink.href;
 			}
 		}, { passive: false });
+
+		// Скидання при натисканні поза елементом
+		document.addEventListener('touchstart', function (event) {
+			if (touchedOnce && !tooltipLink.contains(event.target)) {
+				touchedOnce = false;
+				tooltip.classList.remove('visible');
+				clearTimeout(timeoutId);
+			}
+		}, { passive: true });
 	</script>
 
 </body>
-
 </html>
