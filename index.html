@@ -97,6 +97,8 @@
 
 <body>
 
+	<body>
+
 	<p class="text-box">
 		Page under construction<br>Opening soon<br>by <strong>Lysevych Oleksandr</strong><br>© 2011–2025
 	</p>
@@ -107,3 +109,29 @@
 			<img class="bottom-image" src="https://raw.githubusercontent.com/Lysevych/Lysevych/main/Lysevych-white-logo.webp" alt="Lysevych Oleksandr">
 		</a>
 	</div>
+
+	<script>
+	const tooltip = document.getElementById('tooltip');
+	const tooltipLink = document.getElementById('tooltipLink');
+	let touchedOnce = false;
+	let timeoutId = null;
+
+	tooltipLink.addEventListener('touchstart', function (event) {
+		if (!touchedOnce) {
+			event.preventDefault();
+			touchedOnce = true;
+			tooltip.classList.add('visible');
+			timeoutId = setTimeout(function () {
+				touchedOnce = false;
+				tooltip.classList.remove('visible');
+			}, 10000);
+		} else {
+			clearTimeout(timeoutId);
+			window.location.href = tooltipLink.href;
+		}
+	});
+	</script>
+
+</body>
+
+</html>
