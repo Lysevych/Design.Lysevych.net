@@ -23,7 +23,7 @@
 			left: 50%;
 			transform: translateX(-50%);
 			border-radius: 10px;
-			padding: 20px 20px;
+			padding: 20px;
 			background: #ffffff;
 			font-size: 15px;
 			box-shadow: 0px 0px 3px #666666;
@@ -31,8 +31,6 @@
 			color: #666666;
 			text-shadow: 0px 0px 3px #999999;
 			white-space: nowrap;
-			width: auto;
-			max-width: none;
 		}
 
 		strong {
@@ -44,7 +42,6 @@
 			bottom: 30px;
 			left: 50%;
 			transform: translateX(-50%);
-			display: inline-block;
 			z-index: 1000;
 		}
 
@@ -61,31 +58,21 @@
 		}
 
 		.tooltip-text {
-			visibility: hidden;
-			background-color: #ffffff;
-			color: #666666;
-			text-align: center;
-			border-radius: 10px;
-			padding: 10px 10px;
-			font-size: 15px;
-			text-shadow: 0px 0px 3px #999999;
 			position: absolute;
 			bottom: 100%;
 			left: 50%;
 			transform: translateX(-50%);
 			margin-bottom: 20px;
-			opacity: 0;
-			transition: opacity 1s ease;
+			background-color: #ffffff;
+			color: #666666;
+			padding: 10px;
+			border-radius: 10px;
+			font-size: 15px;
+			text-shadow: 0px 0px 3px #999999;
 			white-space: nowrap;
-			font-family: Helvetica, Sans-Serif;
-			box-sizing: border-box;
-		}
-
-		.tooltip-container:hover .tooltip-text,
-		.tooltip-text.visible {
-			visibility: visible;
-			opacity: 1;
-			filter: drop-shadow(0px 0px 3px #666666);
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 1s ease;
 		}
 
 		.tooltip-text::after {
@@ -98,6 +85,13 @@
 			border-right: 7px solid transparent;
 			border-top: 10px solid #ffffff;
 		}
+
+		.tooltip-text.visible,
+		.tooltip-container:hover .tooltip-text {
+			opacity: 1;
+			visibility: visible;
+			filter: drop-shadow(0px 0px 3px #666666);
+		}
 	</style>
 </head>
 
@@ -107,7 +101,7 @@
 		Page under construction<br>Opening soon<br>by <strong>Lysevych Oleksandr</strong><br>© 2011–2025
 	</p>
 
-	<div class="tooltip-container" id="tooltipContainer">
+	<div class="tooltip-container">
 		<div class="tooltip-text" id="tooltip">Homepage</div>
 		<a href="https://Lysevych.net/" id="tooltipLink">
 			<img class="bottom-image" src="https://raw.githubusercontent.com/Lysevych/Lysevych/main/Lysevych-white-logo.webp" alt="Lysevych Oleksandr">
@@ -115,34 +109,36 @@
 	</div>
 
 	<script>
-		const tooltip = document.getElementById('tooltip');
-		const tooltipLink = document.getElementById('tooltipLink');
-		let tooltipVisible = false;
-		let tooltipTimer;
-		const showTooltip = () => {
-			clearTimeout(tooltipTimer);
-			tooltip.classList.add('visible');
-			tooltipVisible = true;
-			tooltipTimer = setTimeout(hideTooltip, 10000);
-		};
-		const hideTooltip = () => {
-			clearTimeout(tooltipTimer);
-			tooltip.classList.remove('visible');
-			tooltipVisible = false;
-		};
-		tooltipLink.addEventListener('touchstart', (e) => {
-			if (!tooltipVisible) {
-				e.preventDefault();
-				showTooltip();
-			} else {
-				hideTooltip();
-			}
-		}, {
-			passive: false
-		});
-		document.addEventListener('touchstart', (e) => {
-			if (!tooltipLink.contains(e.target)) hideTooltip();
-		});
+		(function() {
+			const tooltip = document.getElementById('tooltip');
+			const tooltipLink = document.getElementById('tooltipLink');
+			let tooltipVisible = false;
+			let tooltipTimer;
+			const showTooltip = () => {
+				clearTimeout(tooltipTimer);
+				tooltip.classList.add('visible');
+				tooltipVisible = true;
+				tooltipTimer = setTimeout(hideTooltip, 10000);
+			};
+			const hideTooltip = () => {
+				clearTimeout(tooltipTimer);
+				tooltip.classList.remove('visible');
+				tooltipVisible = false;
+			};
+			tooltipLink.addEventListener('click', function(e) {
+				if ('ontouchstart' in window) {
+					if (!tooltipVisible) {
+						e.preventDefault();
+						showTooltip();
+					} else {
+						hideTooltip();
+					}
+				}
+			});
+			document.addEventListener('touchstart', (e) => {
+				if (!tooltipLink.contains(e.target)) hideTooltip();
+			});
+		})();
 	</script>
 
 </body>
