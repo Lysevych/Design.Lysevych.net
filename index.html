@@ -13,7 +13,6 @@
 			justify-content: center;
 			align-items: center;
 			background: #999999;
-			position: relative;
 			font-family: Helvetica, Sans-Serif;
 		}
 
@@ -26,10 +25,10 @@
 			padding: 20px;
 			background: #ffffff;
 			font-size: 15px;
-			box-shadow: 0px 0px 3px #666666;
+			box-shadow: 0 0 3px #666;
 			text-align: center;
-			color: #666666;
-			text-shadow: 0px 0px 3px #999999;
+			color: #666;
+			text-shadow: 0 0 3px #999;
 			white-space: nowrap;
 		}
 
@@ -42,19 +41,17 @@
 			bottom: 30px;
 			left: 50%;
 			transform: translateX(-50%);
-			z-index: 1000;
 		}
 
 		img.bottom-image {
 			width: 80px;
-			height: auto;
-			filter: drop-shadow(0px 0px 3px #666666);
+			filter: drop-shadow(0 0 3px #666);
 			cursor: pointer;
-			transition: transform 1s ease;
+			transition: transform 0.5s ease;
 		}
 
 		img.bottom-image:hover {
-			transform: scale(1.1);
+			transform: scale(1.05);
 		}
 
 		.tooltip-text {
@@ -62,17 +59,24 @@
 			bottom: 100%;
 			left: 50%;
 			transform: translateX(-50%);
-			margin-bottom: 20px;
-			background-color: #ffffff;
-			color: #666666;
+			margin-bottom: 15px;
+			background: #fff;
+			color: #666;
 			padding: 10px;
 			border-radius: 10px;
 			font-size: 15px;
-			text-shadow: 0px 0px 3px #999999;
+			text-shadow: 0 0 3px #999;
 			white-space: nowrap;
 			opacity: 0;
 			visibility: hidden;
-			transition: opacity 1s ease;
+			transition: opacity 0.3s ease;
+		}
+
+		.tooltip-container:hover .tooltip-text,
+		.tooltip-text.visible {
+			opacity: 1;
+			visibility: visible;
+			filter: drop-shadow(0 0 3px #666);
 		}
 
 		.tooltip-text::after {
@@ -83,14 +87,7 @@
 			transform: translateX(-50%);
 			border-left: 7px solid transparent;
 			border-right: 7px solid transparent;
-			border-top: 10px solid #ffffff;
-		}
-
-		.tooltip-text.visible,
-		.tooltip-container:hover .tooltip-text {
-			opacity: 1;
-			visibility: visible;
-			filter: drop-shadow(0px 0px 3px #666666);
+			border-top: 10px solid #fff;
 		}
 	</style>
 </head>
@@ -104,41 +101,43 @@
 	<div class="tooltip-container">
 		<div class="tooltip-text" id="tooltip">Homepage</div>
 		<a href="https://Lysevych.net/" id="tooltipLink">
-			<img class="bottom-image" src="https://raw.githubusercontent.com/Lysevych/Lysevych/main/Lysevych-white-logo.webp" alt="Lysevych Oleksandr">
+			<img class="bottom-image"
+				src="https://raw.githubusercontent.com/Lysevych/Lysevych/main/Lysevych-white-logo.webp"
+				alt="Lysevych Oleksandr">
 		</a>
 	</div>
 
 	<script>
-		(function() {
-			const tooltip = document.getElementById('tooltip');
-			const tooltipLink = document.getElementById('tooltipLink');
-			let tooltipVisible = false;
-			let tooltipTimer;
-			const showTooltip = () => {
-				clearTimeout(tooltipTimer);
-				tooltip.classList.add('visible');
-				tooltipVisible = true;
-				tooltipTimer = setTimeout(hideTooltip, 10000);
-			};
-			const hideTooltip = () => {
-				clearTimeout(tooltipTimer);
-				tooltip.classList.remove('visible');
-				tooltipVisible = false;
-			};
-			tooltipLink.addEventListener('click', function(e) {
-				if ('ontouchstart' in window) {
-					if (!tooltipVisible) {
-						e.preventDefault();
-						showTooltip();
-					} else {
-						hideTooltip();
-					}
+		const tooltip = document.getElementById('tooltip');
+		const tooltipLink = document.getElementById('tooltipLink');
+		let tooltipTimer;
+
+		function showTooltip() {
+			tooltip.classList.add('visible');
+			clearTimeout(tooltipTimer);
+			tooltipTimer = setTimeout(hideTooltip, 5000);
+		}
+
+		function hideTooltip() {
+			tooltip.classList.remove('visible');
+		}
+
+		tooltipLink.addEventListener('click', function(e) {
+			if ('ontouchstart' in window) {
+				if (!tooltip.classList.contains('visible')) {
+					e.preventDefault();
+					showTooltip();
+				} else {
+					hideTooltip();
 				}
-			});
-			document.addEventListener('touchstart', (e) => {
-				if (!tooltipLink.contains(e.target)) hideTooltip();
-			});
-		})();
+			}
+		});
+
+		document.addEventListener('touchstart', function(e) {
+			if (!tooltipLink.contains(e.target)) {
+				hideTooltip();
+			}
+		});
 	</script>
 
 </body>
