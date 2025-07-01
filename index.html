@@ -109,38 +109,47 @@
 	</div>
 
 	<script>
-		(function() {
-			const tooltip = document.getElementById('tooltip');
-			const tooltipLink = document.getElementById('tooltipLink');
-			let tooltipVisible = false;
-			let tooltipTimer;
-			const showTooltip = () => {
-				clearTimeout(tooltipTimer);
-				tooltip.classList.add('visible');
-				tooltipVisible = true;
-				tooltipTimer = setTimeout(hideTooltip, 10000);
-			};
-			const hideTooltip = () => {
-				tooltip.classList.remove('visible');
-				tooltipVisible = false;
-			};
-			if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-				tooltipLink.addEventListener('click', function(e) {
-					if (!tooltipVisible) {
-						e.preventDefault();
-						showTooltip();
-					} else {
-						hideTooltip();
-					}
-				});
-				document.addEventListener('touchstart', (e) => {
-					if (!tooltipLink.contains(e.target)) {
-						hideTooltip();
-					}
-				});
-			}
-		})();
-	</script>
+  (function () {
+    const tooltip = document.getElementById('tooltip');
+    const tooltipLink = document.getElementById('tooltipLink');
+    let tooltipVisible = false;
+    let tooltipTimer;
+
+    const showTooltip = () => {
+      clearTimeout(tooltipTimer);
+      tooltip.classList.add('visible');
+      tooltipVisible = true;
+      tooltipTimer = setTimeout(() => {
+        hideTooltip();
+      }, 10000); // Ховаємо через 10 секунд
+    };
+
+    const hideTooltip = () => {
+      clearTimeout(tooltipTimer);
+      tooltip.classList.remove('visible');
+      tooltipVisible = false;
+    };
+
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      tooltipLink.addEventListener('touchend', function (e) {
+        if (!tooltipVisible) {
+          e.preventDefault(); // Блокуємо перехід
+          showTooltip();
+        } else {
+          hideTooltip();
+          // Нічого не перериваємо — посилання відкриється
+        }
+      });
+
+      // При дотику поза tooltip — ховаємо
+      document.addEventListener('touchstart', function (e) {
+        if (!tooltipLink.contains(e.target)) {
+          hideTooltip();
+        }
+      });
+    }
+  })();
+</script>
 
 </body>
 
