@@ -113,16 +113,17 @@
 		let touchedOnce = false;
 		let timeoutId = null;
 
+		// Touch logic for mobile
 		tooltipLink.addEventListener('touchstart', function (event) {
 			if (!touchedOnce) {
-				event.preventDefault(); // блокуємо перехід
+				event.preventDefault();
 				touchedOnce = true;
 				tooltip.classList.add('visible');
 
 				timeoutId = setTimeout(function () {
 					touchedOnce = false;
 					tooltip.classList.remove('visible');
-				 }, 10000);
+				}, 10000);
 			} else {
 				clearTimeout(timeoutId);
 				tooltip.classList.remove('visible');
@@ -130,7 +131,6 @@
 			}
 		}, { passive: false });
 
-		// Скидання при натисканні поза елементом
 		document.addEventListener('touchstart', function (event) {
 			if (touchedOnce && !tooltipLink.contains(event.target)) {
 				touchedOnce = false;
@@ -138,6 +138,15 @@
 				clearTimeout(timeoutId);
 			}
 		}, { passive: true });
+
+		// Hover logic for desktop
+		tooltipLink.addEventListener('mouseenter', function () {
+			tooltip.classList.add('visible');
+		});
+
+		tooltipLink.addEventListener('mouseleave', function () {
+			tooltip.classList.remove('visible');
+		});
 	</script>
 
 </body>
