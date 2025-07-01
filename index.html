@@ -118,7 +118,7 @@ const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 if (isTouchDevice) {
 	tooltipContainer.addEventListener('touchstart', function (event) {
 		if (!touchedOnce) {
-			event.preventDefault(); // блокуємо миттєвий перехід
+			event.preventDefault();
 			touchedOnce = true;
 			tooltip.classList.add('visible');
 			timeoutId = setTimeout(() => {
@@ -140,7 +140,6 @@ if (isTouchDevice) {
 		}
 	}, { passive: true });
 } else {
-	// Hover для десктопів
 	tooltipContainer.addEventListener('mouseenter', function () {
 		tooltip.classList.add('visible');
 	});
