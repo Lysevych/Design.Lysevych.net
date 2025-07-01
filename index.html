@@ -13,6 +13,7 @@
 			justify-content: center;
 			align-items: center;
 			background: #999999;
+			position: relative;
 			font-family: Helvetica, Sans-Serif;
 		}
 
@@ -25,10 +26,10 @@
 			padding: 20px;
 			background: #ffffff;
 			font-size: 15px;
-			box-shadow: 0 0 3px #666;
+			box-shadow: 0px 0px 3px #666666;
 			text-align: center;
-			color: #666;
-			text-shadow: 0 0 3px #999;
+			color: #666666;
+			text-shadow: 0px 0px 3px #999999;
 			white-space: nowrap;
 		}
 
@@ -41,11 +42,13 @@
 			bottom: 30px;
 			left: 50%;
 			transform: translateX(-50%);
+			z-index: 1000;
 		}
 
 		img.bottom-image {
 			width: 80px;
-			filter: drop-shadow(0 0 3px #666);
+			height: auto;
+			filter: drop-shadow(0px 0px 3px #666666);
 			cursor: pointer;
 			transition: transform 0.5s ease;
 		}
@@ -58,25 +61,26 @@
 			position: absolute;
 			bottom: 100%;
 			left: 50%;
-			transform: translateX(-50%);
+			transform: translateX(-50%) translateY(-10px);
 			margin-bottom: 15px;
-			background: #fff;
-			color: #666;
+			background-color: #ffffff;
+			color: #666666;
 			padding: 10px;
 			border-radius: 10px;
 			font-size: 15px;
-			text-shadow: 0 0 3px #999;
+			text-shadow: 0 0 3px #999999;
 			white-space: nowrap;
 			opacity: 0;
-			visibility: hidden;
-			transition: opacity 0.3s ease;
+			pointer-events: none;
+			transition: opacity 0.5s ease;
+			z-index: 20;
 		}
 
-		.tooltip-container:hover .tooltip-text,
-		.tooltip-text.visible {
+		.tooltip-text.visible,
+		.tooltip-container:hover .tooltip-text {
 			opacity: 1;
-			visibility: visible;
-			filter: drop-shadow(0 0 3px #666);
+			pointer-events: auto;
+			filter: drop-shadow(0px 0px 3px #666666);
 		}
 
 		.tooltip-text::after {
@@ -87,7 +91,7 @@
 			transform: translateX(-50%);
 			border-left: 7px solid transparent;
 			border-right: 7px solid transparent;
-			border-top: 10px solid #fff;
+			border-top: 10px solid #ffffff;
 		}
 	</style>
 </head>
@@ -101,9 +105,7 @@
 	<div class="tooltip-container">
 		<div class="tooltip-text" id="tooltip">Homepage</div>
 		<a href="https://Lysevych.net/" id="tooltipLink">
-			<img class="bottom-image"
-				src="https://raw.githubusercontent.com/Lysevych/Lysevych/main/Lysevych-white-logo.webp"
-				alt="Lysevych Oleksandr">
+			<img class="bottom-image" src="https://raw.githubusercontent.com/Lysevych/Lysevych/main/Lysevych-white-logo.webp" alt="Lysevych Oleksandr">
 		</a>
 	</div>
 
@@ -111,31 +113,33 @@
 		const tooltip = document.getElementById('tooltip');
 		const tooltipLink = document.getElementById('tooltipLink');
 		let tooltipTimer;
+		let tooltipVisible = false;
 
 		function showTooltip() {
-			tooltip.classList.add('visible');
 			clearTimeout(tooltipTimer);
-			tooltipTimer = setTimeout(hideTooltip, 5000);
+			tooltip.classList.add('visible');
+			tooltipVisible = true;
+			tooltipTimer = setTimeout(hideTooltip, 10000);
 		}
 
 		function hideTooltip() {
 			tooltip.classList.remove('visible');
+			tooltipVisible = false;
 		}
 
-		tooltipLink.addEventListener('click', function(e) {
-			if ('ontouchstart' in window) {
-				if (!tooltip.classList.contains('visible')) {
-					e.preventDefault();
-					showTooltip();
-				} else {
-					hideTooltip();
-				}
-			}
+		document.addEventListener('touchstart', (e) => {
+			if (!tooltipLink.contains(e.target) && tooltipVisible) hideTooltip();
 		});
 
-		document.addEventListener('touchstart', function(e) {
-			if (!tooltipLink.contains(e.target)) {
+		tooltipLink.addEventListener('mouseenter', showTooltip);
+		tooltipLink.addEventListener('mouseleave', hideTooltip);
+
+		tooltipLink.addEventListener('touchstart', (e) => {
+			if (tooltipVisible) {
 				hideTooltip();
+			} else {
+				e.preventDefault();
+				showTooltip();
 			}
 		});
 	</script>
