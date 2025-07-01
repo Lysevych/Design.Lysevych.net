@@ -72,7 +72,13 @@
 			white-space: nowrap;
 			opacity: 0;
 			visibility: hidden;
-			transition: opacity 1s ease;
+			transition: opacity 0.3s ease;
+		}
+
+		.tooltip-text.visible {
+			opacity: 1;
+			visibility: visible;
+			filter: drop-shadow(0px 0px 3px #666666);
 		}
 
 		.tooltip-text::after {
@@ -85,19 +91,10 @@
 			border-right: 7px solid transparent;
 			border-top: 10px solid #ffffff;
 		}
-
-		.tooltip-text.visible,
-		.tooltip-container:hover .tooltip-text {
-			opacity: 1;
-			visibility: visible;
-			filter: drop-shadow(0px 0px 3px #666666);
-		}
 	</style>
 </head>
 
 <body>
-
-	<body>
 
 	<p class="text-box">
 		Page under construction<br>Opening soon<br>by <strong>Lysevych Oleksandr</strong><br>© 2011–2025
@@ -111,25 +108,26 @@
 	</div>
 
 	<script>
-	const tooltip = document.getElementById('tooltip');
-	const tooltipLink = document.getElementById('tooltipLink');
-	let touchedOnce = false;
-	let timeoutId = null;
+		const tooltip = document.getElementById('tooltip');
+		const tooltipLink = document.getElementById('tooltipLink');
+		let touchedOnce = false;
+		let timeoutId = null;
 
-	tooltipLink.addEventListener('touchstart', function (event) {
-		if (!touchedOnce) {
-			event.preventDefault();
-			touchedOnce = true;
-			tooltip.classList.add('visible');
-			timeoutId = setTimeout(function () {
-				touchedOnce = false;
-				tooltip.classList.remove('visible');
-			}, 10000);
-		} else {
-			clearTimeout(timeoutId);
-			window.location.href = tooltipLink.href;
-		}
-	});
+		tooltipLink.addEventListener('touchend', function (event) {
+			if (!touchedOnce) {
+				event.preventDefault();
+				touchedOnce = true;
+				tooltip.classList.add('visible');
+
+				timeoutId = setTimeout(function () {
+					touchedOnce = false;
+					tooltip.classList.remove('visible');
+				 }, 10000);
+			} else {
+				clearTimeout(timeoutId);
+				window.location.href = tooltipLink.href;
+			}
+		}, { passive: false });
 	</script>
 
 </body>
