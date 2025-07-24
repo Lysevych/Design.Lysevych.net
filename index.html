@@ -1,173 +1,800 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>All About Design</title>
+	<title>Публікація статті</title>
 	<style>
-		body {
-			margin: 0;
-			height: 100vh;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background: #999999;
-			position: relative;
-			font-family: Helvetica, Sans-Serif;
-			user-select: none;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-		}
-
 		* {
-			-webkit-user-drag: none;
+			margin: 0px 0px 0px 0px;
+			padding: 0px 0px 0px 0px;
+			box-sizing: border-box;
 		}
 
-		.text-box {
-			position: absolute;
-			top: 100px;
-			left: 50%;
-			transform: translateX(-50%);
-			border-radius: 10px;
+		body {
+			font-family: Helvetica;
+			background-color: #f8f8f8;
+			color: #555555;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: auto;
 			padding: 20px 20px 20px 20px;
-			background: #ffffff;
-			font-size: 15px;
-			box-shadow: 0px 0px 3px #666666;
+		}
+
+		.title {
+			font-size: 20px;
+			font-weight: normal;
 			text-align: center;
-			color: #666666;
-			text-shadow: 0px 0px 3px #999999;
-			white-space: nowrap;
-			transition: transform 1s ease;
+			margin: 10px 0px 10px 0px;
+			color: #555555;
 		}
 
-		.text-box:hover {
-			cursor: pointer;
-			transform: translateX(-50%) scale(1.1);
+		.form-group {
+			margin: 10px 0px 10px 0px;
 		}
 
-		strong {
-			font-weight: bold;
+		.form-label {
+			display: block;
+			font-size: 17px;
+			font-family: Helvetica;
+			font-weight: normal;
+			color: #555555;
+			margin: 10px 0px 10px 0px;
 		}
 
-		.tooltip-container {
-			position: fixed;
-			bottom: clamp(20px, 3vw, 3vw);
-			left: 50%;
-			transform: translateX(-50%);
-			z-index: 1000;
-			cursor: pointer;
-		}
-
-		.bottom-image {
-			width: clamp(90px, 3vw, 3vw);
-			height: clamp(90px, 3vw, 3vw);
-			filter: drop-shadow(0px 0px 3px #666666);
-			cursor: pointer;
-			transition: transform 1s ease;
-		}
-
-		.bottom-image:hover {
-			transform: scale(1.1);
-		}
-
-		.tooltip-text {
-			position: absolute;
-			bottom: 100%;
-			left: 50%;
-			transform: translateX(-50%);
-			margin-bottom: 20px;
+		.form-input {
+			width: 100%;
+			padding: 10px 10px 10px 10px;
+			font-family: Helvetica;
+			color: #555555;
+			font-size: 17px;
+			border: 3px solid #ffffff;
+			border-radius: 10px;
 			background-color: #ffffff;
-			color: #666666;
+			transition: border-color 0.3s ease-in-out;
+		}
+
+		.form-input:focus {
+			outline: none;
+			border: 3px solid #666666;
+		}
+
+		.form-input::placeholder {
+			font-family: Helvetica;
+			font-size: 17px;
+			color: #999999;
+		}
+
+		.form-textarea {
+			width: 100%;
+			padding: 10px 10px 10px 10px;
+			font-family: Helvetica;
+			color: #555555;
+			font-size: 17px;
+			border: 3px solid #ffffff;
+			border-radius: 10px;
+			background-color: #ffffff;
+			resize: vertical;
+			min-height: 100px;
+			transition: border-color 0.3s ease-in-out;
+		}
+
+		.form-textarea:focus {
+			outline: none;
+			border: 3px solid #666666;
+		}
+
+		.form-textarea::placeholder {
+			font-family: Helvetica;
+			font-size: 17px;
+			color: #999999;
+		}
+
+		.editor-container {
+			border: 3px solid #ffffff;
+			border-radius: 10px;
+			background-color: #ffffff;
+			transition: border-color 0.3s ease-in-out;
+			font-family: Helvetica;
+			color: #555555;
+			font-size: 13px;
+			resize: vertical;
+			overflow: auto;
+		}
+
+		.editor-container:focus-within {
+			border: 3px solid #666666;
+		}
+
+		.editor-toolbar {
+			padding: 10px 10px 10px 10px;
+			border-bottom: none;
+			background-color: #f8f8f8;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			border-radius: 10px;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+		.editor-tools {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			flex-wrap: wrap;
+		}
+
+		.editor-select {
+			padding: 10px 10px 10px 10px;
+			border: none;
+			border-radius: 10px;
+			background-color: #ffffff;
+			font-size: 17px;
+			color: #555555;
+			appearance: none;
+		}
+
+		.editor-select:focus {
+			outline: none;
+			border: 3px solid #666666;
+		}
+
+		.editor-btn {
+			width: 40px;
+			height: 40px;
+			border: none;
+			border-radius: 10px;
+			background-color: #ffffff;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			font-size: 17px;
+			color: #555555;
+			transition: all 0.3s ease-in-out;
+		}
+
+		.editor-btn:hover {
+			background-color: #ffffff;
+		}
+
+		.editor-btn.active {
+			background-color: #666666;
+			color: #ffffff;
+		}
+
+		.word-count {
+			padding: 10px 10px 10px 10px;
+			border: none;
+			border-radius: 10px;
+			background-color: #ffffff;
+			font-size: 17px;
+			color: #555555;
+			min-width: 100px;
+			text-align: center;
+		}
+
+		.word-count.warning {
+			color: #ff6600;
+		}
+
+		.word-count.error {
+			color: #990000;
+		}
+
+		.editor-content {
+			min-height: 300px;
+			padding: 10px 10px 10px 10px;
+			font-size: 17px;
+			color: #555555;
+			border: none;
+			outline: none;
+			background-color: #ffffff;
+			border-radius: 10px;
+			user-select: text;
+			-webkit-user-select: text;
+		}
+
+		.editor-content:empty::before {
+			content: attr(data-placeholder);
+			font-family: Helvetica;
+			font-size: 17px;
+			color: #999999;
+			pointer-events: none;
+		}
+
+		.editor-content:focus:empty::before {
+			color: #999999;
+		}
+
+		.submit-btn {
+			width: 200px;
+			padding: 10px 10px 10px 10px;
+			font-family: Helvetica;
+			font-size: 17px;
+			font-weight: normal;
+			color: #ffffff;
+			background-color: #666666;
+			border: 3px solid #666666;
+			border-radius: 10px;
+			cursor: pointer;
+			transition: all 0.3s ease-in-out;
+			display: block;
+			margin: 0 auto;
+		}
+
+		.submit-btn:hover {
+			background-color: #ffffff;
+			border: 3px solid #ffffff;
+			border-radius: 10px;
+			color: #555555;
+			font-family: Helvetica;
+			transition: all 0.3s ease-in-out;
+		}
+
+		.submit-btn:focus {
+			outline: none;
+			box-shadow: 0px 0px 0px #999999;
+		}
+
+		.toast {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			background-color: #666666;
+			color: white;
 			padding: 10px 10px 10px 10px;
 			border-radius: 10px;
-			font-size: 15px;
-			text-shadow: 0px 0px 3px #999999;
-			white-space: nowrap;
+			z-index: 1000;
 			opacity: 0;
-			visibility: hidden;
-			transition: opacity 1s ease;
+			transition: all 0.3s ease;
+			font-size: 17px;
+			text-align: center;
+			transform: translateX(100%);
+			width: auto;
+			max-width: 300px;
+			word-wrap: break-word;
 		}
 
-		.tooltip-text.visible {
+		.toast.show {
 			opacity: 1;
-			visibility: visible;
-			filter: drop-shadow(0px 0px 3px #666666);
+			transform: translateX(0);
 		}
 
-		.tooltip-text::after {
-			content: "";
+		.toast.error {
+			background-color: #666666;
+		}
+
+		.toast.field-tooltip {
+			position: absolute;
+			z-index: 1000;
+			opacity: 0;
+			transition: all 0.3s ease;
+			padding: 10px 10px 10px 10px;
+			width: auto;
+			max-width: 300px;
+			word-wrap: break-word;
+			background-color: #666666;
+			color: white;
+			border-radius: 10px;
+			font-size: 17px;
+			text-align: center;
+		}
+
+		.toast.field-tooltip::after {
+			content: '';
 			position: absolute;
 			top: 100%;
-			left: 50%;
-			transform: translateX(-50%);
+			left: 30px;
+			width: 0;
+			height: 0;
 			border-left: 7px solid transparent;
 			border-right: 7px solid transparent;
-			border-top: 10px solid #ffffff;
+			border-top: 10px solid #666666;
+		}
+
+		.link-dialog {
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(102, 102, 102, 0.5);
+			display: none;
+			justify-content: center;
+			align-items: center;
+			z-index: 2000;
+		}
+
+		.link-dialog.show {
+			display: flex;
+		}
+
+		.link-dialog-content {
+			background-color: #f8f8f8;
+			padding: 10px 20px 10px 20px;
+			border-radius: 10px;
+			width: 100%;
+			max-width: 300px;
+			box-shadow: none;
+		}
+
+		.link-dialog h3 {
+			margin: 10px 10px 10px 10px;
+			font-size: 17px;
+			color: #555555;
+			font-weight: normal;
+			text-align: center;
+		}
+
+		.link-dialog-buttons {
+			display: flex;
+			margin: 20px 0px 20px 0px;
+			gap: 20px;
+		}
+
+		.link-dialog-btn {
+			flex: 1;
+			padding: 10px 10px 10px 10px;
+			border: 3px solid transparent;
+			border-radius: 10px;
+			font-size: 17px;
+			font-weight: normal;
+			cursor: pointer;
+			transition: all 0.3s ease-in-out;
+			background-color: #ffffff;
+			color: #555555;
+		}
+
+		.link-dialog-btn:hover {
+			background-color: #666666;
+			color: #ffffff;
+		}
+
+		.link-dialog-btn.primary {
+			background-color: #666666;
+			color: #ffffff;
+		}
+
+		.link-dialog-btn.primary:hover {
+			background-color: #ffffff;
+			color: #666666;
 		}
 	</style>
 </head>
 
 <body>
+	<div class="container">
+		<h1 class="title">Публікація статті</h1>
 
-	<p class="text-box">
-		Page under construction<br>Opening soon<br>by <strong>Lysevych Oleksandr</strong><br>© 2011–2025
-	</p>
+		<form id="articleForm" novalidate>
+			<div class="form-group">
+				<label class="form-label" for="title">Заголовок статті</label>
+				<input type="text" id="title" name="title" class="form-input" placeholder="Введіть заголовок статті...">
+			</div>
 
-	<div class="tooltip-container" id="tooltipContainer">
-		<div class="tooltip-text" id="tooltip">Homepage</div>
-		<a href="https://Lysevych.net/" id="tooltipLink">
-			<img class="bottom-image" src="https://raw.githubusercontent.com/Lysevych/Lysevych/main/Lysevych-white-logo.webp" alt="Lysevych Oleksandr">
-		</a>
+			<div class="form-group">
+				<label class="form-label">Текст статті</label>
+				<div class="editor-container">
+					<div class="editor-toolbar">
+						<div class="editor-tools">
+							<select class="editor-select" id="formatSelect">
+								<option value="div">Звичайний текст</option>
+								<option value="h1">Заголовок H1</option>
+								<option value="h2">Заголовок H2</option>
+								<option value="h3">Заголовок H3</option>
+								<option value="h4">Заголовок H4</option>
+								<option value="h5">Заголовок H5</option>
+								<option value="h6">Заголовок H6</option>
+							</select>
+							<button type="button" class="editor-btn" id="boldBtn">
+								<strong>B</strong>
+							</button>
+							<button type="button" class="editor-btn" id="italicBtn">
+								<em>I</em>
+							</button>
+							<button type="button" class="editor-btn" id="underlineBtn">
+								<u>U</u>
+							</button>
+							<button type="button" class="editor-btn" id="linkBtn">
+								🔗
+							</button>
+							<button type="button" class="editor-btn" id="imageBtn">
+								📷
+							</button>
+							<input type="file" id="imageUpload" accept="image/*" style="display: none;">
+						</div>
+						<div class="word-count" id="wordCount">
+							Слів: 0 з 5000
+						</div>
+					</div>
+					<div class="editor-content" id="editor" contenteditable="true" data-placeholder="Введіть текст статті та відформатуйте..."></div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="form-label" for="metaKeywords">Meta keywords</label>
+				<div class="editor-container" style="resize: none;">
+					<textarea id="metaKeywords" name="metaKeywords" class="form-textarea" placeholder="Введіль ключові слова через кому..." style="border: none; border-radius: 0; background-color: transparent; resize: none; max-height: 50px; overflow-y: auto;"></textarea>
+					<div class="editor-toolbar" style="border-radius: 10px 10px 10px 10px;">
+						<div></div>
+						<div class="word-count" id="keywordCount">
+							Ключових слів: 0 з 10
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="form-label" for="metaDescription">Meta Description</label>
+				<div class="editor-container" style="resize: none;">
+					<textarea id="metaDescription" name="metaDescription" class="form-textarea" placeholder="Короткий опис статті..." style="border: none; border-radius: 0; background-color: transparent; resize: none; max-height: 50px; overflow-y: auto;"></textarea>
+					<div class="editor-toolbar" style="border-radius: 10px 10px 10px 10px;">
+						<div></div>
+						<div class="word-count" id="symbolCount">
+							Символів: 0 з 160
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="form-label" for="authorName">Прізвище та ім'я автора статті</label>
+				<input type="text" id="authorName" name="authorName" class="form-input" placeholder="Прізвище та ім'я...">
+			</div>
+
+			<div class="form-group">
+				<label class="form-label" for="authorEmail">Е-адреса автора статті</label>
+				<input type="email" id="authorEmail" name="authorEmail" class="form-input" placeholder="login@site.domain">
+			</div>
+
+			<div class="form-group">
+				<label class="form-label" for="authorPhone">Телефон автора статті</label>
+				<input type="tel" id="authorPhone" name="authorPhone" class="form-input" placeholder="+370XXXXXXXX">
+			</div>
+
+			<button type="submit" class="submit-btn">Надіслати статтю</button>
+		</form>
+	</div>
+
+	<div class="toast" id="toast"></div>
+
+	<div class="link-dialog" id="linkDialog">
+		<div class="link-dialog-content">
+			<h3>Додати посилання</h3>
+			<input type="url" id="linkInput" class="form-input" placeholder="Введіть URL посилання...">
+			<div class="link-dialog-buttons">
+				<button type="button" class="link-dialog-btn" id="linkCancel">Скасувати</button>
+				<button type="button" class="link-dialog-btn primary" id="linkOk">Добре</button>
+			</div>
+		</div>
 	</div>
 
 	<script>
-		document.addEventListener('contextmenu', e => e.preventDefault());
-		document.addEventListener('copy', e => e.preventDefault());
-		document.addEventListener('selectstart', e => e.preventDefault());
-		document.addEventListener('dragstart', e => e.preventDefault());
-		const tooltip = document.getElementById('tooltip');
-		const tooltipLink = document.getElementById('tooltipLink');
-		const tooltipContainer = document.getElementById('tooltipContainer');
-		let touchedOnce = false;
-		let timeoutId = null;
-		const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-		if (isTouchDevice) {
-			tooltipContainer.addEventListener('touchstart', function(event) {
-				if (!touchedOnce) {
-					event.preventDefault();
-					touchedOnce = true;
-					tooltip.classList.add('visible');
-					timeoutId = setTimeout(() => {
-						touchedOnce = false;
-						tooltip.classList.remove('visible');
-					}, 10000);
-				} else {
-					clearTimeout(timeoutId);
-					tooltip.classList.remove('visible');
-					window.location.href = tooltipLink.href;
-				}
-			}, {
-				passive: false
-			});
-			document.addEventListener('touchstart', function(e) {
-				if (touchedOnce && !tooltipContainer.contains(e.target)) {
-					touchedOnce = false;
-					tooltip.classList.remove('visible');
-					clearTimeout(timeoutId);
-				}
-			}, {
-				passive: true
-			});
-		} else {
-			tooltipContainer.addEventListener('mouseenter', function() {
-				tooltip.classList.add('visible');
-			});
-			tooltipContainer.addEventListener('mouseleave', function() {
-				tooltip.classList.remove('visible');
-			});
+		const editor = document.getElementById('editor');
+		const wordCountDiv = document.getElementById('wordCount');
+		const symbolCountDiv = document.getElementById('symbolCount');
+		const keywordCountDiv = document.getElementById('keywordCount');
+		const metaDescription = document.getElementById('metaDescription');
+		const metaKeywords = document.getElementById('metaKeywords');
+		const formatSelect = document.getElementById('formatSelect');
+		const boldBtn = document.getElementById('boldBtn');
+		const italicBtn = document.getElementById('italicBtn');
+		const underlineBtn = document.getElementById('underlineBtn');
+		const linkBtn = document.getElementById('linkBtn');
+		const imageBtn = document.getElementById('imageBtn');
+		const imageUpload = document.getElementById('imageUpload');
+		const linkDialog = document.getElementById('linkDialog');
+		const linkInput = document.getElementById('linkInput');
+		const linkCancel = document.getElementById('linkCancel');
+		const linkOk = document.getElementById('linkOk');
+
+		function updateWordCount() {
+			const text = editor.innerText || editor.textContent || '';
+			const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+			const wordCount = words.length;
+			wordCountDiv.textContent = `Слів: ${wordCount} з 5000`;
+			if (wordCount > 4500) {
+				wordCountDiv.className = 'word-count warning';
+			} else if (wordCount > 5000) {
+				wordCountDiv.className = 'word-count error';
+			} else {
+				wordCountDiv.className = 'word-count';
+			}
 		}
+
+		function updateSymbolCount() {
+			const text = metaDescription.value || '';
+			const symbolCount = text.length;
+			symbolCountDiv.textContent = `Символів: ${symbolCount} з 160`;
+			if (symbolCount > 140) {
+				symbolCountDiv.className = 'word-count warning';
+			} else if (symbolCount > 160) {
+				symbolCountDiv.className = 'word-count error';
+			} else {
+				symbolCountDiv.className = 'word-count';
+			}
+		}
+
+		function updateKeywordCount() {
+			const text = metaKeywords.value || '';
+			const keywords = text.split(',').map(k => k.trim()).filter(k => k.length > 0);
+			const keywordCount = keywords.length;
+			keywordCountDiv.textContent = `Ключових слів: ${keywordCount} з 10`;
+			if (keywordCount > 8) {
+				keywordCountDiv.className = 'word-count warning';
+			} else if (keywordCount > 10) {
+				keywordCountDiv.className = 'word-count error';
+			} else {
+				keywordCountDiv.className = 'word-count';
+			}
+		}
+		formatSelect.addEventListener('change', function() {
+			document.execCommand('formatBlock', false, this.value);
+			editor.focus();
+		});
+		boldBtn.addEventListener('click', function() {
+			document.execCommand('bold');
+			this.classList.toggle('active');
+			editor.focus();
+		});
+		italicBtn.addEventListener('click', function() {
+			document.execCommand('italic');
+			this.classList.toggle('active');
+			editor.focus();
+		});
+		underlineBtn.addEventListener('click', function() {
+			document.execCommand('underline');
+			this.classList.toggle('active');
+			editor.focus();
+		});
+		linkBtn.addEventListener('click', function() {
+			linkDialog.classList.add('show');
+			linkInput.value = '';
+			linkInput.focus();
+		});
+		linkCancel.addEventListener('click', function() {
+			linkDialog.classList.remove('show');
+		});
+		linkOk.addEventListener('click', function() {
+			const url = linkInput.value.trim();
+			if (url) {
+				document.execCommand('createLink', false, url);
+				linkDialog.classList.remove('show');
+				editor.focus();
+			}
+		});
+		linkInput.addEventListener('keypress', function(e) {
+			if (e.key === 'Enter') {
+				linkOk.click();
+			}
+			if (e.key === 'Escape') {
+				linkCancel.click();
+			}
+		});
+		imageBtn.addEventListener('click', function() {
+			imageUpload.click();
+		});
+		imageUpload.addEventListener('change', function(e) {
+			const file = e.target.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					const img = document.createElement('img');
+					img.src = e.target.result;
+					img.style.maxWidth = '100%';
+					img.style.height = 'auto';
+					img.style.margin = '20px 20px 20px 20px';
+					const selection = window.getSelection();
+					if (selection.getRangeAt && selection.rangeCount) {
+						const range = selection.getRangeAt(0);
+						range.deleteContents();
+						range.insertNode(img);
+					}
+				};
+				reader.readAsDataURL(file);
+			}
+		});
+		editor.addEventListener('input', function() {
+			updateWordCount();
+			updateButtonStates();
+		});
+		editor.addEventListener('paste', function() {
+			setTimeout(updateWordCount, 100);
+		});
+		metaDescription.addEventListener('input', updateSymbolCount);
+		metaDescription.addEventListener('paste', function() {
+			setTimeout(updateSymbolCount, 100);
+		});
+		metaKeywords.addEventListener('input', updateKeywordCount);
+		metaKeywords.addEventListener('paste', function() {
+			setTimeout(updateKeywordCount, 100);
+		});
+		metaKeywords.addEventListener('blur', function() {
+			const text = metaKeywords.value || '';
+			const keywords = text.split(',').map(k => k.trim()).filter(k => k.length > 0);
+			if (keywords.length > 10) {
+				showToast('Перевищено обмеження до 10 ключових слів.', 'error', metaKeywords);
+			}
+		});
+		metaDescription.addEventListener('blur', function() {
+			const text = metaDescription.value || '';
+			if (text.length > 160) {
+				showToast('Перевищено обмеження до 160 символів.', 'error', metaDescription);
+			}
+		});
+		editor.addEventListener('blur', function() {
+			const text = editor.innerText || editor.textContent || '';
+			const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+			if (words.length > 5000) {
+				showToast('Перевищено обмеження до 5000 слів.', 'error', editor);
+			}
+		});
+		editor.addEventListener('selectionchange', function() {
+			updateButtonStates();
+		});
+		document.addEventListener('selectionchange', function() {
+			if (document.activeElement === editor) {
+				updateButtonStates();
+			}
+		});
+
+		function updateButtonStates() {
+			boldBtn.classList.toggle('active', document.queryCommandState('bold'));
+			italicBtn.classList.toggle('active', document.queryCommandState('italic'));
+			underlineBtn.classList.toggle('active', document.queryCommandState('underline'));
+		}
+		document.getElementById('articleForm').addEventListener('submit', function(e) {
+			e.preventDefault();
+			const formData = {
+				title: document.getElementById('title').value,
+				content: editor.innerHTML,
+				metaKeywords: document.getElementById('metaKeywords').value,
+				metaDescription: document.getElementById('metaDescription').value,
+				authorName: document.getElementById('authorName').value,
+				authorEmail: document.getElementById('authorEmail').value,
+				authorPhone: document.getElementById('authorPhone').value
+			};
+			if (!formData.title.trim()) {
+				showToast('Будь ласка, введіть заголовок статті.', 'error', document.getElementById('title'));
+				document.getElementById('title').focus();
+				return;
+			}
+			if (!formData.content.trim() || editor.innerText.trim() === '') {
+				showToast('Будь ласка, введіть текст статті.', 'error', editor);
+				editor.focus();
+				return;
+			}
+			if (!formData.metaKeywords.trim()) {
+				showToast('Будь ласка, введіть ключові слова.', 'error', metaKeywords);
+				metaKeywords.focus();
+				return;
+			}
+			if (!formData.metaDescription.trim()) {
+				showToast('Будь ласка, введіть опис статті.', 'error', metaDescription);
+				metaDescription.focus();
+				return;
+			}
+			if (!formData.authorName.trim()) {
+				showToast('Будь ласка, введіть прізвище та ім\'я автора.', 'error', document.getElementById('authorName'));
+				document.getElementById('authorName').focus();
+				return;
+			}
+			if (!formData.authorEmail.trim()) {
+				showToast('Будь ласка, введіть е-адресу автора.', 'error', document.getElementById('authorEmail'));
+				document.getElementById('authorEmail').focus();
+				return;
+			}
+			if (!formData.authorPhone.trim()) {
+				showToast('Будь ласка, введіть телефон автора.', 'error', document.getElementById('authorPhone'));
+				document.getElementById('authorPhone').focus();
+				return;
+			}
+			const text = editor.innerText || editor.textContent || '';
+			const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+			if (words.length > 5000) {
+				showToast('Текст статті перевищує обмеження у 5000 слів.', 'error', editor);
+				return;
+			}
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			if (!emailRegex.test(formData.authorEmail)) {
+				showToast('Будь ласка, введіть коректну е-адресу.', 'error', document.getElementById('authorEmail'));
+				document.getElementById('authorEmail').focus();
+				return;
+			}
+			const phoneRegex = /^\+?[\d\s\-\(\)]{10,15}$/;
+			if (!phoneRegex.test(formData.authorPhone)) {
+				showToast('Будь ласка, введіть коректний номер телефону.', 'error', document.getElementById('authorPhone'));
+				document.getElementById('authorPhone').focus();
+				return;
+			}
+			showToast('Статтю успішно надіслано на модерацію.', 'success');
+			console.log('Form Data:', formData);
+			setTimeout(() => {
+				document.getElementById('articleForm').reset();
+				editor.innerHTML = '';
+				updateWordCount();
+				updateSymbolCount();
+				updateKeywordCount();
+			}, 5000);
+		});
+
+		function showToast(message, type = 'success', targetElement = null) {
+			if (targetElement) {
+				// Тимчасова діагностика для сенсорних екранів
+				if ('ontouchstart' in window) {
+					alert('Toast на сенсорному: ' + message);
+					return;
+				}
+				
+				// Видаляємо попередні field tooltip-и
+				const existingToasts = document.querySelectorAll('.toast.field-tooltip');
+				existingToasts.forEach(toast => {
+					if (toast.parentNode) {
+						toast.parentNode.removeChild(toast);
+					}
+				});
+				// Створюємо новий toast
+				const toast = document.createElement('div');
+				toast.className = `toast field-tooltip ${type}`;
+				toast.textContent = message;
+				toast.style.position = 'absolute';
+				toast.style.zIndex = '1000';
+				toast.style.opacity = '0';
+				toast.style.transform = 'translateY(-10px)';
+				toast.style.transition = 'all 0.3s ease';
+				toast.style.padding = '10px 10px 10px 10px';
+				toast.style.width = 'auto';
+				toast.style.maxWidth = '300px';
+				toast.style.wordWrap = 'break-word';
+				
+				const rect = targetElement.getBoundingClientRect();
+				const container = document.querySelector('.container');
+				const containerRect = container.getBoundingClientRect();
+				
+				toast.style.top = (rect.top - containerRect.top - 50) + 'px';
+				toast.style.left = (rect.left - containerRect.left) + 'px';
+				container.style.position = 'relative';
+				container.appendChild(toast);
+				
+				setTimeout(() => {
+					toast.style.opacity = '1';
+					toast.style.transform = 'translateY(0)';
+				}, 10);
+				
+				setTimeout(() => {
+					toast.style.opacity = '0';
+					toast.style.transform = 'translateY(-10px)';
+					setTimeout(() => {
+						if (toast.parentNode) {
+							toast.parentNode.removeChild(toast);
+						}
+					}, 300);
+				}, 5000);
+			} else {
+				// Стандартний toast
+				const standardToast = document.getElementById('toast');
+				standardToast.classList.remove('show');
+				standardToast.textContent = message;
+				standardToast.className = `toast ${type}`;
+				
+				setTimeout(() => {
+					standardToast.classList.add('show');
+				}, 10);
+				
+				setTimeout(() => {
+					standardToast.classList.remove('show');
+				}, 5000);
+			}
+		}
+		
+		updateWordCount();
+		updateSymbolCount();
+		updateKeywordCount();
 	</script>
 </body>
 
