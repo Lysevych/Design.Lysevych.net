@@ -269,22 +269,6 @@
 			background-color: #666666;
 		}
 
-		.toast.field-tooltip {
-			position: absolute;
-			z-index: 1000;
-			opacity: 0;
-			transition: all 0.3s ease;
-			padding: 10px 10px 10px 10px;
-			width: auto;
-			max-width: 300px;
-			word-wrap: break-word;
-			background-color: #666666;
-			color: white;
-			border-radius: 10px;
-			font-size: 17px;
-			text-align: center;
-		}
-
 		.toast.field-tooltip::after {
 			content: '';
 			position: absolute;
@@ -725,52 +709,12 @@
 
 		function showToast(message, type = 'success', targetElement = null) {
 			if (targetElement) {
-				// Для сенсорних екранів використовуємо простий fixed toast
-				if ('ontouchstart' in window) {
-					const toast = document.createElement('div');
-					toast.className = `toast field-tooltip ${type}`;
-					toast.textContent = message;
-					toast.style.position = 'fixed';
-					toast.style.top = '20px';
-					toast.style.left = '50%';
-					toast.style.transform = 'translateX(-50%)';
-					toast.style.zIndex = '1001';
-					toast.style.backgroundColor = '#666666';
-					toast.style.color = 'white';
-					toast.style.padding = '10px 15px';
-					toast.style.borderRadius = '10px';
-					toast.style.fontSize = '17px';
-					toast.style.textAlign = 'center';
-					toast.style.maxWidth = '90vw';
-					toast.style.wordWrap = 'break-word';
-					toast.style.opacity = '0';
-					toast.style.transition = 'opacity 0.3s ease';
-					
-					document.body.appendChild(toast);
-					
-					setTimeout(() => {
-						toast.style.opacity = '1';
-					}, 10);
-					
-					setTimeout(() => {
-						toast.style.opacity = '0';
-						setTimeout(() => {
-							if (toast.parentNode) {
-								toast.parentNode.removeChild(toast);
-							}
-						}, 300);
-					}, 5000);
-					return;
-				}
-				
-				// Для десктопу використовуємо оригінальний код
 				const existingToasts = document.querySelectorAll('.toast.field-tooltip');
 				existingToasts.forEach(toast => {
 					if (toast.parentNode) {
 						toast.parentNode.removeChild(toast);
 					}
 				});
-				
 				const toast = document.createElement('div');
 				toast.className = `toast field-tooltip ${type}`;
 				toast.textContent = message;
@@ -783,21 +727,17 @@
 				toast.style.width = 'auto';
 				toast.style.maxWidth = '300px';
 				toast.style.wordWrap = 'break-word';
-				
 				const rect = targetElement.getBoundingClientRect();
 				const container = document.querySelector('.container');
 				const containerRect = container.getBoundingClientRect();
-				
 				toast.style.top = (rect.top - containerRect.top - 50) + 'px';
 				toast.style.left = (rect.left - containerRect.left) + 'px';
 				container.style.position = 'relative';
 				container.appendChild(toast);
-				
 				setTimeout(() => {
 					toast.style.opacity = '1';
 					toast.style.transform = 'translateY(0)';
 				}, 10);
-				
 				setTimeout(() => {
 					toast.style.opacity = '0';
 					toast.style.transform = 'translateY(-10px)';
@@ -808,22 +748,23 @@
 					}, 300);
 				}, 5000);
 			} else {
-				// Стандартний toast
 				const standardToast = document.getElementById('toast');
 				standardToast.classList.remove('show');
 				standardToast.textContent = message;
 				standardToast.className = `toast ${type}`;
-				
+				standardToast.style.position = 'fixed';
+				standardToast.style.top = '20px';
+				standardToast.style.right = '20px';
+				standardToast.style.left = 'auto';
+				standardToast.style.transform = 'translateX(100%)';
 				setTimeout(() => {
 					standardToast.classList.add('show');
 				}, 10);
-				
 				setTimeout(() => {
 					standardToast.classList.remove('show');
 				}, 5000);
 			}
 		}
-		
 		updateWordCount();
 		updateSymbolCount();
 		updateKeywordCount();
