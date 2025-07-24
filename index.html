@@ -725,20 +725,52 @@
 
 		function showToast(message, type = 'success', targetElement = null) {
 			if (targetElement) {
-				// Тимчасова діагностика для сенсорних екранів
+				// Для сенсорних екранів використовуємо простий fixed toast
 				if ('ontouchstart' in window) {
-					alert('Toast на сенсорному: ' + message);
+					const toast = document.createElement('div');
+					toast.className = `toast field-tooltip ${type}`;
+					toast.textContent = message;
+					toast.style.position = 'fixed';
+					toast.style.top = '20px';
+					toast.style.left = '50%';
+					toast.style.transform = 'translateX(-50%)';
+					toast.style.zIndex = '1001';
+					toast.style.backgroundColor = '#666666';
+					toast.style.color = 'white';
+					toast.style.padding = '10px 15px';
+					toast.style.borderRadius = '10px';
+					toast.style.fontSize = '17px';
+					toast.style.textAlign = 'center';
+					toast.style.maxWidth = '90vw';
+					toast.style.wordWrap = 'break-word';
+					toast.style.opacity = '0';
+					toast.style.transition = 'opacity 0.3s ease';
+					
+					document.body.appendChild(toast);
+					
+					setTimeout(() => {
+						toast.style.opacity = '1';
+					}, 10);
+					
+					setTimeout(() => {
+						toast.style.opacity = '0';
+						setTimeout(() => {
+							if (toast.parentNode) {
+								toast.parentNode.removeChild(toast);
+							}
+						}, 300);
+					}, 5000);
 					return;
 				}
 				
-				// Видаляємо попередні field tooltip-и
+				// Для десктопу використовуємо оригінальний код
 				const existingToasts = document.querySelectorAll('.toast.field-tooltip');
 				existingToasts.forEach(toast => {
 					if (toast.parentNode) {
 						toast.parentNode.removeChild(toast);
 					}
 				});
-				// Створюємо новий toast
+				
 				const toast = document.createElement('div');
 				toast.className = `toast field-tooltip ${type}`;
 				toast.textContent = message;
